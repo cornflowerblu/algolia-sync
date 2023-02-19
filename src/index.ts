@@ -8,7 +8,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED || '1'
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.get('/health', (req: Request, res: Response) => {
     res.json({
