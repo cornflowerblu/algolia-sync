@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: app
+      - uses: actions/checkout@v3
 
       - name: Install Deps
         run: npm ci --no-audit
