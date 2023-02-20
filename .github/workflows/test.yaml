@@ -1,7 +1,7 @@
-on: push
-
-branches-ignore:
-  - main
+on: 
+  push
+    branches-ignore:
+      - main
 
 jobs:
   test:
