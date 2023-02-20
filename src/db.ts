@@ -3,13 +3,20 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+let ssl: boolean | undefined
+if (process.env.NODE_ENV == 'production') {
+  ssl = true
+} else {
+  ssl = false
+}
+
 export const pgClient = new Client({
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
-  database: process.env.DB_NAME || 'postgres',
-  ssl: process.env.DB_SSL ? process.env.DB_SSL === 'true' : false,
+  host: process.env.POSTGRES_HOST || 'db',
+  port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
+  user: process.env.POSTGRES_USER || 'postgres',
+  password: process.env.POSTGRES_PASSWORD || 'postgres',
+  database: process.env.POSTGRES_DB || 'postgres',
+  ssl: true
 })
 
 export const dbConnection = async () => {
