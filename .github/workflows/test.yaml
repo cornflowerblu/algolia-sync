@@ -42,11 +42,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Deps
-        run: npm ci --no-audit
+      - name: Go into the container and run the tests
+        run: 
+          docker exec -it app /bin/sh \
+          npm test:ci
 
-      - name: Run Tests
-        run: npm run test
+      # - name: Run Tests
+      #   run: npm run test:ci
 
     services:
     # Label used to access the service container
