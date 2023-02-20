@@ -3,7 +3,6 @@ version: '3.9'
 services:
   db:
     image: postgres
-    restart: always
     ports:
       - 8001:5432
     environment:
