@@ -11,4 +11,4 @@ jobs:
 
       - name: Stop containers
         if: always()
-        run: sleep 30 && docker-compose -f "docker-compose.yml" down
+        run: sleep 5 && docker-compose -f "docker-compose.yml" down
