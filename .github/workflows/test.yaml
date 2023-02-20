@@ -6,13 +6,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Run a one-line script
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}    
     
     - name: Install modules
       run: npm ci --no-audit
     
+    - name: Build & Run the app
+      run: npm run build && npm start
+
     - name: Run tests
-      run: npm run test
+      run: npm run test:ci
