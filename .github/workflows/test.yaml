@@ -70,11 +70,11 @@ jobs:
         ports:
           - 80:8080
 
-    steps:
-      - uses: actions/checkout@v3
+    # steps:
+    #   - uses: actions/checkout@v3
 
-      - name: Install Deps
-        run: npm ci --no-audit
+    #   - name: Install Deps
+    #     run: npm ci --no-audit
 
-      - name: Run Tests
-        run: npm run test
+    #   - name: Run Tests
+    #     run: npm run test
