@@ -45,10 +45,7 @@ jobs:
       - name: Install Deps
         run: npm ci --no-audit
       - name: Run tests
-        run: npm run test
-        with:
-          env:
-            NODE_ENV=development
+        run: NODE_ENV=development npm run test
 
     services:
       # Label used to access the service container
