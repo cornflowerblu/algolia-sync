@@ -46,6 +46,9 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Get docker paths
+        run: docker inspect ghcr.io/cornflowerblu/${{ env.IMAGE_NAME }}
     services:
     # Label used to access the service container
       postgres:
