@@ -117,8 +117,6 @@ metadata:
     time: "2023-02-20T00:09:51Z"
   name: algolia-sync
   namespace: algolia
-  resourceVersion: "40640322"
-  uid: 31057f16-c056-4564-b4ec-ada50a111ad8
 spec:
   progressDeadlineSeconds: 600
   replicas: 2
@@ -192,3 +190,66 @@ status:
   readyReplicas: 2
   replicas: 2
   updatedReplicas: 2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/targetWorkloadIds: '["algolia/algolia-sync"]'
+    management.cattle.io/ui-managed: "true"
+  creationTimestamp: "2023-02-20T00:04:19Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:field.cattle.io/targetWorkloadIds: {}
+          f:management.cattle.io/ui-managed: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"31057f16-c056-4564-b4ec-ada50a111ad8"}: {}
+      f:spec:
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":8080,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: rancher
+    operation: Update
+    time: "2023-02-20T00:04:19Z"
+  name: algolia-sync
+  namespace: algolia
+  ownerReferences:
+  - apiVersion: apps/v1
+    controller: true
+    kind: Deployment
+    name: algolia-sync
+    uid: 31057f16-c056-4564-b4ec-ada50a111ad8
+spec:
+  clusterIP: 10.245.239.216
+  clusterIPs:
+  - 10.245.239.216
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: 8080tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    workload.user.cattle.io/workloadselector: apps.deployment-algolia-algolia-sync
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
