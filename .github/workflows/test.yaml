@@ -9,3 +9,5 @@ jobs:
       run: npm install
     - name: Run tests
       run: npm run test
+      with:
+        env: PORT=8000
