@@ -46,9 +46,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Get docker paths
-        run: docker inspect ghcr.io/cornflowerblu/${{ env.IMAGE_NAME }}
+
     services:
     # Label used to access the service container
       postgres:
@@ -65,13 +63,13 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-      # app:
-      #   image: ghcr.io/${{ github.actor }}/${{ steps.meta.outputs.labels }}:${{ steps.meta.outputs.tags }}
-      #   env:
-      #     POSTGRES_HOST: localhost
-      #     POSTGRES_PORT: 5432
-      #   ports:
-      #     - 80:8080
+      app:
+        image: ghcr.io/${{ github.actor }}/${{ GITHUB_WORKSPACE }}/${{ env.GITHUB_BASE_REF }}
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+        ports:
+          - 80:8080
 
     # steps:
     #   - uses: actions/checkout@v3
