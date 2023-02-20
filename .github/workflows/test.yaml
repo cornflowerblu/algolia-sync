@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        env: PORT=8000
+        port: 8000
     - name: Install modules
       run: npm install
     - name: Run tests
