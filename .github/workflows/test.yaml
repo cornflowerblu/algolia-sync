@@ -42,10 +42,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Deps & Run tests
+      - name: Install Deps
         run: 
-          npm ci --no-audit \
-          npm test:ci
+          npm ci --no-audit
+      - name: Run tests
+        run: npm run test:ci
 
     services:
     # Label used to access the service container
