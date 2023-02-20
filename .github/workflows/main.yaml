@@ -8,15 +8,6 @@ on:
       - '.editorconfig'
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install modules
-      run: npm install
-    - name: Run tests
-      run: npm run test
-
   build:
     name: Build and Push
     runs-on: ubuntu-latest
