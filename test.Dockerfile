@@ -1,17 +1,14 @@
-FROM alpine:latest
+FROM node:lts-alpine
 
 WORKDIR /usr/src/app
 
 COPY . .
 
 RUN apk update
-RUN apk add npm bash openrc python3 docker docker-compose
-RUN rc-update add docker default
+RUN apk add bash
 
 RUN npm ci --no-audit
 RUN npm run build
-
-RUN /etc/init.d/docker start
 
 ENV NODE_ENV=development
 
