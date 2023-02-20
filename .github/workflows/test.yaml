@@ -27,6 +27,9 @@ jobs:
     
     - name: Build & Run the app
       run: npm run build && npm start
+      env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432      
 
     - name: Run tests
       run: npm run test:ci
