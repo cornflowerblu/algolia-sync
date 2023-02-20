@@ -38,7 +38,7 @@ jobs:
     
   create-services-and-test:
     runs-on: ubuntu-latest
-    needs: build-app
+    needs: build-and-push-image
     services:
     # Label used to access the service container
       postgres:
