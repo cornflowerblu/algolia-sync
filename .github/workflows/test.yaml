@@ -29,10 +29,9 @@ jobs:
       env:
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
-        PORT: 8000
     
     - name: Run App
-      run: docker run -d -p 80:8000 app
+      run: docker run -p 80:8080 app
     
     - name: Install modules
       run: npm ci --no-audit
