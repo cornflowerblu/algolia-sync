@@ -15,8 +15,7 @@ jobs:
 
     - name: Log in to the registry and push
       run: 
-        export CR_PAT=${{secrets.TOKEN}} \
-        echo $CR_PAT | docker login ghcr.io -u ${{ github.actor }} --password-stdin \
+        docker login ghcr.io -u ${{ github.actor }} -p ${{secrets.TOKEN}} \
         docker push ghcr.io/cornflowerblu/app:testing
     
   create-services-and-test:
