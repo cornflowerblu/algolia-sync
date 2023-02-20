@@ -65,7 +65,7 @@ jobs:
         ports:
           - 5432:5432
       app:
-        image: ghcr.io/cornflowerblu/algolia-sync:prettier-and-testing
+        image: ghcr.io/cornflowerblu/algolia-sync:${{ vars.GITHUB_REF_NAME }}
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432

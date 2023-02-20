@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const requestWithSupertest = supertest(`http://127.0.0.1:${process.env.PORT}`)
+const requestWithSupertest = supertest(`http://localhost:${process.env.PORT}`)
 
 describe('Health check', () => {
     it('should return 200', async () => {
