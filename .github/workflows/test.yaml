@@ -32,7 +32,7 @@ jobs:
         PORT: 8000
     
     - name: Run App
-      run: docker run -d -p 8000:8000 app
+      run: docker run -d -p 80:8000 app
     
     - name: Install modules
       run: npm ci --no-audit
