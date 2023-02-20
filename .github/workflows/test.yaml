@@ -64,7 +64,7 @@ jobs:
         ports:
           - 5432:5432
       app:
-        image: ghcr.io/${{ github.actor }}/${{ GITHUB_WORKSPACE }}/${{ env.GITHUB_BASE_REF }}
+        image: ghcr.io/${{ github.actor }}/${{ vars.GITHUB_WORKSPACE }}/${{ vars.GITHUB_BASE_REF }}
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
