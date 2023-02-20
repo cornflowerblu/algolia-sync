@@ -1,0 +1,66 @@
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".env"
+      - ".env.example"
+      - ".editorconfig"
+
+jobs:
+  build:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v2
+
+      - name: Update SHA
+        run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/_meta
+
+      - name: Build container image
+        run: docker build -t registry.digitalocean.com/always-sunny/algolia-sync:latest -t registry.digitalocean.com/always-sunny/algolia-sync:$(echo $GITHUB_SHA | head -c7) .
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 600
+
+      - name: Push image to DigitalOcean Container Registry
+        run: 
+          docker push registry.digitalocean.com/always-sunny/algolia-sync -a
+          docker push registry.digitalocean.com/always-sunny/algolia-sync:latest
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v2
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-1-24-8-do-0-sfo3-1671928634245
+
+      - name: Install kubectl
+        run: |
+          sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+          sudo apt-get update
+          sudo apt-get install kubectl
+
+      - name: Update Deployment and Service
+        run: kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yml
+
+      - name: Rollout Pods and Verify
+        run: |
+          kubectl rollout restart deployment/algolia-sync -n algolia
+          kubectl rollout status deployment/algolia-sync -n algolia
