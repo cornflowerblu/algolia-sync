@@ -1,8 +1,17 @@
 on: push
 
 jobs:
-  test:
+  setup-test:
     runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build App
+      run: docker build -t app . --file Dockerfile
+      env:
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
     
     services:
     # Label used to access the service container
@@ -21,18 +30,21 @@ jobs:
         ports:
           - 5432:5432
       app:
-        image: docker build -t app . --file Dockerfile
+        image: app
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
         ports:
           - 80:8080
-    
+  
+  run-tests:
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Install modules
-      run: npm ci --no-audit
-    
-    - name: Build & Test the app
-      run: npm run test
+      - uses: services
+
+      - name: Install Deps
+        run: npm ci --no-audit
+
+      - name: Run Tests
+        run: npm run test
