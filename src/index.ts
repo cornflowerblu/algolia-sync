@@ -5,10 +5,11 @@ import { dbConnection, pgClient } from './db'
 
 
 dotenv.config()
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 export const app: Express = express()
 const port = process.env.NODE_PORT || 8080
-dbConnection();
+
 
 app.get('/health', (req: Request, res: Response) => {
   res.json({
@@ -34,7 +35,7 @@ app.get('/sync', async (req: Request, res: Response) => {
       );
     `)
 
-  if (dataCheck.oid === null) {
+  if (dataCheck.rows[0].exists === false) {
     return res.status(200).json({
       message: 'No episodes to sync',
       status: res.statusCode,
@@ -85,6 +86,6 @@ app.get('/sync', async (req: Request, res: Response) => {
 })
 
 app.listen(port, async () => {
-  // await dbConnection()
-  return console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
+  return await dbConnection()
 })

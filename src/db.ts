@@ -2,6 +2,7 @@ import { Client } from 'pg'
 import dotenv from 'dotenv'
 
 dotenv.config()
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 let ssl: boolean | undefined
 if (process.env.NODE_ENV == 'production') {
@@ -20,14 +21,10 @@ export const pgClient = new Client({
 })
 
 export const dbConnection = async () => {
-  try {
-    await pgClient.connect()
-    console.log('Connected to database')
-    const res = await pgClient.query('SELECT $1::text as message', [
-      'Query Success!',
-    ])
-    console.log(res.rows[0].message)
-  } catch (error) {
-    console.log(error)
-  }
+  await pgClient.connect()
+  console.log('Connected to database')
+  const res = await pgClient.query('SELECT $1::text as message', [
+    'Query Success!',
+  ])
+  console.log(res.rows[0].message)
 }

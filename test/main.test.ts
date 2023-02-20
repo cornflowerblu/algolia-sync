@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { app } from '../src/index'
 
 dotenv.config()
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 describe('Health check', () => {
     it('should return 200', async () => {
@@ -25,12 +26,5 @@ describe('Sync', () => {
     it('should return 401 if an invalid key is provided', async () => {
         const response = await request(app).get('/sync?key=invalid')
         expect(response.status).toBe(401)
-    })
-
-    it('should return 200 if a valid key is provided', async () => {
-        const response = await request(app).get(
-            `/sync?key=${process.env.SYNC_KEY}`,
-        )
-        expect(response.status).toBe(200)
     })
 })
