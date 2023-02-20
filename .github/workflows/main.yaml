@@ -3,14 +3,15 @@ on:
     branches:
       - main
     paths-ignore:
-      - ".env"
-      - ".env.example"
-      - ".editorconfig"
+      - '.env'
+      - '.env.example'
+      - '.editorconfig'
 
 jobs:
   build:
     name: Build and Push
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout main
         uses: actions/checkout@v2
@@ -31,7 +32,7 @@ jobs:
 
       - name: Push image to DigitalOcean Container Registry
         run: docker push registry.digitalocean.com/always-sunny/algolia-sync -a
-      - name: Make sure latest tag actually got pushed    
+      - name: Make sure latest tag actually got pushed
         run: docker push registry.digitalocean.com/always-sunny/algolia-sync:latest
 
   deploy:
