@@ -30,9 +30,9 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Push image to DigitalOcean Container Registry
-        run: 
-          docker push registry.digitalocean.com/always-sunny/algolia-sync -a
-          docker push registry.digitalocean.com/always-sunny/algolia-sync:latest
+        run: docker push registry.digitalocean.com/always-sunny/algolia-sync -a
+      - name: Make sure latest tag actually got pushed    
+        run: docker push registry.digitalocean.com/always-sunny/algolia-sync:latest
 
   deploy:
     name: Deploy
