@@ -15,7 +15,7 @@ jobs:
 
     - name: Log in to the registry and push
       run: 
-        docker login ghcr.io -u ${{ github.actor }} -p ${{secrets.TOKEN}} \
+        docker login ghcr.io -u ${{ github.actor }} -p ${{secrets.GITHUB_TOKEN}} \
         docker push ghcr.io/cornflowerblu/app:testing
     
   create-services-and-test:
