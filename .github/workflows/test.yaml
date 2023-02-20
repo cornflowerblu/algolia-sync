@@ -20,16 +20,18 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+      app:
+        image: .
+        env:
+            POSTGRES_HOST: localhost
+            POSTGRES_PORT: 5432
+            PORT: 8000
     
     steps:
-    - uses: actions/checkout@v2    
+    - uses: actions/checkout@v3
     
     - name: Install modules
       run: npm ci --no-audit
     
-    - name: Build & Run the app
+    - name: Build & Test the app
       run: npm run test
-      env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          PORT: 8000
