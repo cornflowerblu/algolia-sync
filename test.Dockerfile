@@ -7,6 +7,8 @@ COPY . .
 RUN npm ci --no-audit
 RUN npm run build
 
+ENV NODE_ENV=development
+
 EXPOSE 8080
 
-CMD ["npm", "run", "test:ci"]
+ENTRYPOINT [ "./test/test.sh" ]

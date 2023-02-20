@@ -17,7 +17,7 @@ export const pgClient = new Client({
   user: process.env.POSTGRES_USER || 'postgres',
   password: process.env.POSTGRES_PASSWORD || 'postgres',
   database: process.env.POSTGRES_DB || 'postgres',
-  ssl: true
+  ssl: ssl
 })
 
 export const dbConnection = async () => {
