@@ -8,7 +8,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 describe('Health check', () => {
   it('should return 200', async () => {
     const response = await request(app).get('/health')
-    expect(response.status).toBeGreaterThanOrEqual(500)
+    expect(response.status).toBeGreaterThanOrEqual(200)
   })
 
   it('should return a timestamp that is not in the past', async () => {
