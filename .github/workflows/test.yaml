@@ -1,7 +1,7 @@
 on: push
 
 jobs:
-  setup-test:
+  build-app:
     runs-on: ubuntu-latest
 
     steps:
@@ -9,10 +9,9 @@ jobs:
 
     - name: Build App
       run: docker build -t app . --file Dockerfile
-      env:
-        POSTGRES_HOST: localhost
-        POSTGRES_PORT: 5432
     
+  deploy-services:
+    runs-on: ubuntu-latest
     services:
     # Label used to access the service container
       postgres:
@@ -36,9 +35,6 @@ jobs:
           POSTGRES_PORT: 5432
         ports:
           - 80:8080
-  
-  run-tests:
-    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
